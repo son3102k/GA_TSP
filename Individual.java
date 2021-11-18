@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Individual implements Comparable<Individual>{
     public static int[][] COST;
-    private static Random rd = new Random();
     private int len_genes;
     public int[] genes;
     public int fitness = 0;
@@ -28,7 +27,7 @@ public class Individual implements Comparable<Individual>{
         fitness -= COST[a[n]][a[1]];
     }
 
-    public void mutation() {
+    public void mutation(Random rd) {
         int idx1, idx2;
         idx1 = rd.nextInt(len_genes)+1;
         while ((idx2=rd.nextInt(len_genes)+1) == idx1);
@@ -38,12 +37,13 @@ public class Individual implements Comparable<Individual>{
         caculate_fitness();
     }
 
-    public ArrayList<Individual> PMX_crossOver(Individual other) throws FileNotFoundException {
+    public ArrayList<Individual> PMX_crossOver(Individual other,Random rd) throws FileNotFoundException {
         ArrayList<Individual> l = new ArrayList<Individual>();
         int[] offSpring1 = new int[len_genes+1];
         int[] offSpring2 = new int[len_genes+1];
-        int idx1 = len_genes/3;
-        int idx2 = 2*(len_genes/3);
+        
+        int idx1 = rd.nextInt(len_genes/3)+1;
+        int idx2 = rd.nextInt((len_genes/3))+ (2*len_genes/3)+1;
         HashMap<Integer,Integer> o1_map_o2 = new HashMap<Integer,Integer>();
         HashMap<Integer,Integer> o2_map_o1 = new HashMap<Integer,Integer>();
         
@@ -55,6 +55,7 @@ public class Individual implements Comparable<Individual>{
             o1_map_o2.put(offSpring1[i], offSpring2[i]);
             o2_map_o1.put(offSpring2[i], offSpring1[i]);
         }
+
         // mapping non-collision
 
         for (int i = 1 ; i<=len_genes ; i++) {
