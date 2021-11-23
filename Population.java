@@ -7,19 +7,20 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class Population {
     private static Random rd = new Random(0);
-    private static final double Pm = 0.5;
-    private static final double Pc = 0.9;
-    private static final double R_OFFSPRING = 0.05;
-    private static final int N_I = 10000;
-    private static final int LEN_GEN = 48;
+    private static final double Pm = 0.7;
+    private static final double Pc = 0.95;
+    private static final double R_OFFSPRING = 0.6;
+    private static final int N_I = 1000000;
+    private static final int LEN_GEN = 51;
     private ArrayList<Individual> l = new ArrayList<Individual>();
 
     public static void main(String[] args) throws FileNotFoundException {
         Population p = new Population();
         p.Init();
-        final int GENERATION = 20000;
+        final int GENERATION = 35;
         for (int i = 1; i <= GENERATION; i++) {
             ArrayList<Individual> l_OffSpring = new ArrayList<Individual>();
             ArrayList<Individual> parent_selected = p.parent_Selection();
@@ -48,6 +49,7 @@ public class Population {
             p.elitism(l_OffSpring);
             p.sort_Rank();
             System.out.println(p.l.get(0).fitness);
+            System.out.println(Arrays.toString(p.l.get(0).genes));
         }
         // System.out.println(p.l.get(0).fitness);
         // System.out.println(Arrays.toString(p.l.get(0).genes));
@@ -55,7 +57,7 @@ public class Population {
 
     public void Init() throws FileNotFoundException {
 
-        Scanner sc = new Scanner(new BufferedReader(new FileReader("att48_d.txt")));
+        Scanner sc = new Scanner(new BufferedReader(new FileReader("eli51_d.txt")));
         Individual.COST = new int[LEN_GEN + 1][LEN_GEN + 1];
         while (sc.hasNextLine()) {
             for (int i = 1; i <= LEN_GEN; i++) {
